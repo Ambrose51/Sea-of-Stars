@@ -20,6 +20,7 @@ class CharacterSheet {
         document.getElementById('newCharacter').addEventListener('click', () => this.newCharacter());
         document.getElementById('saveCharacter').addEventListener('click', () => this.saveCurrentCharacter());
         document.getElementById('loadCharacter').addEventListener('click', () => this.showLoadDialog());
+        document.getElementById('importFromDoc').addEventListener('click', () => this.showImportModal());
         document.getElementById('exportCharacter').addEventListener('click', () => this.exportCharacter());
         document.getElementById('importCharacter').addEventListener('click', () => this.importCharacter());
         document.getElementById('printSheet').addEventListener('click', () => window.print());
@@ -27,6 +28,11 @@ class CharacterSheet {
         // Dynamic section buttons
         document.getElementById('addTrait').addEventListener('click', () => this.addTrait());
         document.getElementById('addPower').addEventListener('click', () => this.addPower());
+
+        // Modal controls
+        document.getElementById('closeModal').addEventListener('click', () => this.hideImportModal());
+        document.getElementById('cancelImport').addEventListener('click', () => this.hideImportModal());
+        document.getElementById('parseImport').addEventListener('click', () => this.parseDocText());
     }
 
     setupDynamicSections() {
@@ -381,6 +387,283 @@ class CharacterSheet {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    showImportModal() {
+        document.getElementById('importModal').style.display = 'flex';
+        document.getElementById('docTextInput').value = '';
+        document.getElementById('docTextInput').focus();
+    }
+
+    hideImportModal() {
+        document.getElementById('importModal').style.display = 'none';
+    }
+
+    parseDocText() {
+        const text = document.getElementById('docTextInput').value;
+        if (!text.trim()) {
+            alert('Please paste some text first.');
+            return;
+        }
+
+        try {
+            const characterData = this.parseGoogleDocFormat(text);
+            this.loadCharacterData(characterData);
+            this.saveCurrentCharacter();
+            this.hideImportModal();
+            this.showNotification('Character imported from doc!');
+        } catch (error) {
+            alert('Error parsing character sheet: ' + error.message);
+        }
+    }
+
+    parseGoogleDocFormat(text) {
+        const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+        const data = {
+            id: this.generateId(),
+            emotionalMeridians: [],
+            conceptualAlignments: [],
+            worldlineAffinities: [],
+            soulState: {},
+            statistics: {},
+            traits: [],
+            powers: []
+        };
+
+        let currentSection = null;
+        let currentTrait = null;
+        let currentPower = null;
+        let traitDescription = [];
+        let powerDescription = [];
+
+        // Extract character name (first line)
+        if (lines.length > 0) {
+            data.characterName = lines[0];
+        }
+
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i];
+
+            // Extract quote (text in quotes)
+            if (line.startsWith('"') && line.endsWith('"')) {
+                data.characterQuote = line.substring(1, line.length - 1);
+                continue;
+            }
+
+            // Check for section headers
+            if (line === 'Emotional Meridians') {
+                currentSection = 'emotional';
+                continue;
+            }
+            if (line === 'Conceptual Alignments') {
+                currentSection = 'conceptual';
+                continue;
+            }
+            if (line === 'Worldline Affinities') {
+                currentSection = 'worldline';
+                continue;
+            }
+            if (line === 'Soul-State Status') {
+                currentSection = 'soulState';
+                continue;
+            }
+            if (line === 'Statistic Makeup') {
+                currentSection = 'statistics';
+                continue;
+            }
+            if (line === 'Traits') {
+                // Save previous trait if exists
+                if (currentTrait) {
+                    data.traits.push({
+                        title: currentTrait,
+                        description: traitDescription.join('\n')
+                    });
+                }
+                currentSection = 'traits';
+                currentTrait = null;
+                traitDescription = [];
+                continue;
+            }
+            if (line === 'Base Powerset') {
+                // Save previous trait if exists
+                if (currentTrait) {
+                    data.traits.push({
+                        title: currentTrait,
+                        description: traitDescription.join('\n')
+                    });
+                }
+                currentSection = 'powers';
+                currentTrait = null;
+                currentPower = null;
+                traitDescription = [];
+                powerDescription = [];
+                continue;
+            }
+            if (line === 'Additional Rules' || line === 'END') {
+                // Save previous power if exists
+                if (currentPower) {
+                    data.powers.push({
+                        name: currentPower,
+                        description: powerDescription.join('\n')
+                    });
+                }
+                currentSection = 'additionalRules';
+                currentPower = null;
+                powerDescription = [];
+                continue;
+            }
+
+            // Parse field: value pairs
+            const colonIndex = line.indexOf(':');
+            if (colonIndex > -1 && colonIndex < 50) {
+                const field = line.substring(0, colonIndex).trim();
+                const value = line.substring(colonIndex + 1).trim();
+
+                // Map fields to data properties
+                const fieldMap = {
+                    'Theme': 'theme',
+                    'Sponsor': 'sponsor',
+                    'True Sephira State': 'sephiraState',
+                    'Sea of Stars Rank': 'rank',
+                    'Sea of Stars Role': 'role',
+                    'Origin Node': 'originNode',
+                    'Potential': 'potential',
+                    'Grudge Level': 'grudgeLevel',
+                    'Genotype': 'genotype',
+                    'Blood Pattern': 'bloodPattern',
+                    'Ascension State': 'ascensionState'
+                };
+
+                if (fieldMap[field]) {
+                    data[fieldMap[field]] = value;
+                    continue;
+                }
+            }
+
+            // Parse alignment sections (lists separated by /)
+            if (currentSection === 'emotional' || currentSection === 'conceptual' || currentSection === 'worldline') {
+                const items = line.split('/').map(item => item.trim()).filter(item => item);
+                items.forEach(item => {
+                    const normalized = item.toLowerCase().replace(/\s+/g, '-');
+                    const id = `${currentSection === 'emotional' ? 'em' : currentSection === 'conceptual' ? 'ca' : 'wa'}-${normalized}`;
+
+                    if (currentSection === 'emotional') {
+                        data.emotionalMeridians.push(id);
+                    } else if (currentSection === 'conceptual') {
+                        data.conceptualAlignments.push(id);
+                    } else if (currentSection === 'worldline') {
+                        data.worldlineAffinities.push(id);
+                    }
+                });
+                continue;
+            }
+
+            // Parse stats (label followed by number on same or next line)
+            if (currentSection === 'soulState' || currentSection === 'statistics') {
+                // Try to split by whitespace to get stat name and value
+                const parts = line.split(/\s+/);
+                if (parts.length >= 2) {
+                    const lastPart = parts[parts.length - 1];
+                    if (!isNaN(lastPart)) {
+                        const statName = parts.slice(0, -1).join(' ').toLowerCase();
+                        const value = lastPart;
+
+                        // Map stat names
+                        const statMap = {
+                            'cognition': 'cognition',
+                            'memory': 'memory',
+                            'emanation': 'emanation',
+                            'comprehension': 'comprehension',
+                            'stagnation': 'stagnation',
+                            'inversion': 'inversion',
+                            'dissonance': 'dissonance',
+                            'resonance': 'resonance',
+                            'power': 'power',
+                            'agility': 'agility',
+                            'tenacity': 'tenacity',
+                            'discipline': 'discipline',
+                            'empathy': 'empathy',
+                            'presence': 'presence',
+                            'reasoning': 'reasoning',
+                            'intuition': 'intuition',
+                            'synchronicity': 'synchronicity'
+                        };
+
+                        if (statMap[statName]) {
+                            if (currentSection === 'soulState') {
+                                data.soulState[statMap[statName]] = value;
+                            } else {
+                                data.statistics[statMap[statName]] = value;
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
+
+            // Parse traits section
+            if (currentSection === 'traits') {
+                // If this line looks like a title (short, not starting with lowercase)
+                if (line.length < 100 && !line.match(/^[a-z]/)) {
+                    // Save previous trait
+                    if (currentTrait) {
+                        data.traits.push({
+                            title: currentTrait,
+                            description: traitDescription.join('\n')
+                        });
+                    }
+                    currentTrait = line;
+                    traitDescription = [];
+                } else if (currentTrait) {
+                    traitDescription.push(line);
+                }
+                continue;
+            }
+
+            // Parse powers section
+            if (currentSection === 'powers') {
+                // If this line looks like a title (short, not starting with lowercase)
+                if (line.length < 100 && !line.match(/^[a-z]/)) {
+                    // Save previous power
+                    if (currentPower) {
+                        data.powers.push({
+                            name: currentPower,
+                            description: powerDescription.join('\n')
+                        });
+                    }
+                    currentPower = line;
+                    powerDescription = [];
+                } else if (currentPower) {
+                    powerDescription.push(line);
+                }
+                continue;
+            }
+
+            // Additional rules section
+            if (currentSection === 'additionalRules') {
+                if (!data.additionalRules) {
+                    data.additionalRules = line;
+                } else {
+                    data.additionalRules += '\n' + line;
+                }
+            }
+        }
+
+        // Save final trait or power if exists
+        if (currentTrait) {
+            data.traits.push({
+                title: currentTrait,
+                description: traitDescription.join('\n')
+            });
+        }
+        if (currentPower) {
+            data.powers.push({
+                name: currentPower,
+                description: powerDescription.join('\n')
+            });
+        }
+
+        return data;
     }
 
     showNotification(message) {
