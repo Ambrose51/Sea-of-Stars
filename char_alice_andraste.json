@@ -1,0 +1,68 @@
+{
+  "id": "char_alice_andraste",
+  "characterName": "Alice Andraste",
+  "characterQuote": "",
+  "theme": "10/4/2025 20:35:33",
+  "sponsor": "ORANGE RANGE\"*ASTERISK \"",
+  "sephiraState": "Morgiana",
+  "rank": "The Moon Reversed - Upsilon - Space",
+  "role": "Throne",
+  "originNode": "Outsider",
+  "potential": "00",
+  "grudgeLevel": 0,
+  "genotype": "MAX",
+  "bloodPattern": "Hybrid Soul",
+  "ascensionState": "Jewel",
+  "soulState": {
+    "cognition": 0,
+    "memory": 4,
+    "emanation": 8,
+    "comprehension": 2,
+    "stagnation": 9,
+    "inversion": 5,
+    "dissonance": 4,
+    "resonance": 3
+  },
+  "statistics": {
+    "power": 8,
+    "agility": 2,
+    "tenacity": 3,
+    "discipline": 4,
+    "empathy": 2,
+    "presence": 8,
+    "reasoning": 8,
+    "intuition": 9,
+    "synchronicity": 7
+  },
+  "emotionalMeridians": [
+    "8"
+  ],
+  "conceptualAlignments": [
+    "em-charity",
+    "em-mercy",
+    "em-wonder",
+    "em-ambition",
+    "em-judgement",
+    "em-regret"
+  ],
+  "worldlineAffinities": [
+    "ca-silence",
+    "ca-space",
+    "ca-time",
+    "ca-chaos",
+    "ca-soul",
+    "ca-stasis"
+  ],
+  "traits": [],
+  "powers": [
+    {
+      "name": "Aether, Miracle, Phantasia",
+      "description": ""
+    }
+  ],
+  "additionalRules": "",
+  "docUrl": "",
+  "lastUpdated": "https://docs.google.com/document/d/12Hz_1iuxBwinJlbsckRGqBmaePE8AF5jendxyeHxesE/edit?usp=drivesdk",
+  "firstNameColor": "Action and Reaction",
+  "lastNameColor": "#d9d9d9"
+}
