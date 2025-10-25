@@ -17,22 +17,31 @@ class CharacterSheet {
 
     setupEventListeners() {
         // Button controls
-        document.getElementById('newCharacter').addEventListener('click', () => this.newCharacter());
-        document.getElementById('saveCharacter').addEventListener('click', () => this.saveCurrentCharacter());
-        document.getElementById('loadCharacter').addEventListener('click', () => this.showLoadDialog());
-        document.getElementById('importFromDoc').addEventListener('click', () => this.showImportModal());
-        document.getElementById('exportCharacter').addEventListener('click', () => this.exportCharacter());
-        document.getElementById('importCharacter').addEventListener('click', () => this.importCharacter());
-        document.getElementById('printSheet').addEventListener('click', () => window.print());
+        const addListener = (id, handler) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('click', handler);
+            } else {
+                console.warn(`Element with id '${id}' not found`);
+            }
+        };
+
+        addListener('newCharacter', () => this.newCharacter());
+        addListener('saveCharacter', () => this.saveCurrentCharacter());
+        addListener('loadCharacter', () => this.showLoadDialog());
+        addListener('importFromDoc', () => this.showImportModal());
+        addListener('exportCharacter', () => this.exportCharacter());
+        addListener('importCharacter', () => this.importCharacter());
+        addListener('printSheet', () => window.print());
 
         // Dynamic section buttons
-        document.getElementById('addTrait').addEventListener('click', () => this.addTrait());
-        document.getElementById('addPower').addEventListener('click', () => this.addPower());
+        addListener('addTrait', () => this.addTrait());
+        addListener('addPower', () => this.addPower());
 
         // Modal controls
-        document.getElementById('closeModal').addEventListener('click', () => this.hideImportModal());
-        document.getElementById('cancelImport').addEventListener('click', () => this.hideImportModal());
-        document.getElementById('parseImport').addEventListener('click', () => this.parseDocText());
+        addListener('closeModal', () => this.hideImportModal());
+        addListener('cancelImport', () => this.hideImportModal());
+        addListener('parseImport', () => this.parseDocText());
     }
 
     setupDynamicSections() {
@@ -390,9 +399,19 @@ class CharacterSheet {
     }
 
     showImportModal() {
-        document.getElementById('importModal').style.display = 'flex';
-        document.getElementById('docTextInput').value = '';
-        document.getElementById('docTextInput').focus();
+        console.log('showImportModal called');
+        const modal = document.getElementById('importModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            const textInput = document.getElementById('docTextInput');
+            if (textInput) {
+                textInput.value = '';
+                textInput.focus();
+            }
+        } else {
+            console.error('Import modal not found!');
+            alert('Import modal not found. Please refresh the page.');
+        }
     }
 
     hideImportModal() {
