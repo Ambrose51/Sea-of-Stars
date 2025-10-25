@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea of Stars - Character Sheet</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="sheet-header">
+            <h1>Sea of Stars Character Sheet</h1>
+            <div class="character-controls">
+                <button id="newCharacter" class="btn">New Character</button>
+                <button id="saveCharacter" class="btn btn-primary">Save Character</button>
+                <button id="loadCharacter" class="btn">Load Character</button>
+                <button id="exportCharacter" class="btn">Export JSON</button>
+                <button id="importCharacter" class="btn">Import JSON</button>
+                <button id="printSheet" class="btn">Print</button>
+            </div>
+        </header>
+
+        <div class="character-sheet">
+            <!-- Character Identity Section -->
+            <section class="identity-section">
+                <div class="name-quote-block">
+                    <input type="text" id="characterName" class="character-name" placeholder="Character Name">
+                    <textarea id="characterQuote" class="character-quote" placeholder="Character quote..." rows="3"></textarea>
+                    <div class="metadata-row">
+                        <label>Theme: <input type="text" id="theme" placeholder="Song/Theme"></label>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-group">
+                        <label>Sponsor</label>
+                        <input type="text" id="sponsor" placeholder="Sponsor name">
+                    </div>
+                    <div class="stat-group">
+                        <label>True Sephira State</label>
+                        <input type="text" id="sephiraState" placeholder="e.g., The Emperor Reversed - Zeta - Creation">
+                    </div>
+                    <div class="stat-group">
+                        <label>Sea of Stars Rank</label>
+                        <input type="text" id="rank" placeholder="Rank">
+                    </div>
+                    <div class="stat-group">
+                        <label>Sea of Stars Role</label>
+                        <input type="text" id="role" placeholder="Role">
+                    </div>
+                    <div class="stat-group">
+                        <label>Origin Node</label>
+                        <input type="text" id="originNode" placeholder="##">
+                    </div>
+                    <div class="stat-group">
+                        <label>Potential</label>
+                        <input type="text" id="potential" placeholder="Level #">
+                    </div>
+                    <div class="stat-group">
+                        <label>Grudge Level</label>
+                        <input type="number" id="grudgeLevel" min="0" max="10">
+                    </div>
+                    <div class="stat-group">
+                        <label>Genotype</label>
+                        <input type="text" id="genotype" placeholder="e.g., Pure Soul">
+                    </div>
+                    <div class="stat-group">
+                        <label>Blood Pattern</label>
+                        <input type="text" id="bloodPattern" placeholder="Color">
+                    </div>
+                    <div class="stat-group">
+                        <label>Ascension State</label>
+                        <input type="text" id="ascensionState" placeholder="State">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emotional Meridians -->
+            <section class="alignment-section">
+                <h2>Emotional Meridians</h2>
+                <div class="alignment-grid">
+                    <div class="alignment-column virtue">
+                        <h3>Virtues</h3>
+                        <label class="alignment-item"><input type="checkbox" id="em-charity" data-category="emotional"> Charity</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-hope" data-category="emotional"> Hope</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-joy" data-category="emotional"> Joy</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-justice" data-category="emotional"> Justice</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-love" data-category="emotional"> Love</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-mercy" data-category="emotional"> Mercy</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-passion" data-category="emotional"> Passion</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-will" data-category="emotional"> Will</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-wonder" data-category="emotional"> Wonder</label>
+                    </div>
+                    <div class="alignment-column vice">
+                        <h3>Vices</h3>
+                        <label class="alignment-item"><input type="checkbox" id="em-ambition" data-category="emotional"> Ambition</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-desire" data-category="emotional"> Desire</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-envy" data-category="emotional"> Envy</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-fear" data-category="emotional"> Fear</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-hatred" data-category="emotional"> Hatred</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-judgement" data-category="emotional"> Judgement</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-regret" data-category="emotional"> Regret</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-sadness" data-category="emotional"> Sadness</label>
+                        <label class="alignment-item"><input type="checkbox" id="em-wrath" data-category="emotional"> Wrath</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conceptual Alignments -->
+            <section class="alignment-section">
+                <h2>Conceptual Alignments</h2>
+                <div class="alignment-grid">
+                    <div class="alignment-column">
+                        <label class="alignment-item"><input type="checkbox" id="ca-creation" data-category="conceptual"> Creation</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-decay" data-category="conceptual"> Decay</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-destruction" data-category="conceptual"> Destruction</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-eternity" data-category="conceptual"> Eternity</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-growth" data-category="conceptual"> Growth</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-rebirth" data-category="conceptual"> Rebirth</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-silence" data-category="conceptual"> Silence</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-space" data-category="conceptual"> Space</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-time" data-category="conceptual"> Time</label>
+                    </div>
+                    <div class="alignment-column">
+                        <label class="alignment-item"><input type="checkbox" id="ca-chaos" data-category="conceptual"> Chaos</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-death" data-category="conceptual"> Death</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-life" data-category="conceptual"> Life</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-nature" data-category="conceptual"> Nature</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-negative" data-category="conceptual"> Negative</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-order" data-category="conceptual"> Order</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-positive" data-category="conceptual"> Positive</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-soul" data-category="conceptual"> Soul</label>
+                        <label class="alignment-item"><input type="checkbox" id="ca-stasis" data-category="conceptual"> Stasis</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Worldline Affinities -->
+            <section class="alignment-section">
+                <h2>Worldline Affinities</h2>
+                <div class="alignment-single">
+                    <label class="alignment-item"><input type="checkbox" id="wa-aether" data-category="worldline"> Aether</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-bond" data-category="worldline"> Bond</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-flow" data-category="worldline"> Flow</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-miracle" data-category="worldline"> Miracle</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-permanence" data-category="worldline"> Permanence</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-phantasia" data-category="worldline"> Phantasia</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-quintessence" data-category="worldline"> Quintessence</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-twilight" data-category="worldline"> Twilight</label>
+                    <label class="alignment-item"><input type="checkbox" id="wa-void" data-category="worldline"> Void</label>
+                </div>
+            </section>
+
+            <!-- Soul-State Status -->
+            <section class="stats-section">
+                <h2>Soul-State Status</h2>
+                <div class="stat-blocks">
+                    <div class="stat-item">
+                        <label>Cognition</label>
+                        <input type="number" id="cognition" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Memory</label>
+                        <input type="number" id="memory" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Emanation</label>
+                        <input type="number" id="emanation" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Comprehension</label>
+                        <input type="number" id="comprehension" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Stagnation</label>
+                        <input type="number" id="stagnation" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Inversion</label>
+                        <input type="number" id="inversion" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Dissonance</label>
+                        <input type="number" id="dissonance" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Resonance</label>
+                        <input type="number" id="resonance" min="0" max="10" value="0">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistic Makeup -->
+            <section class="stats-section">
+                <h2>Statistic Makeup</h2>
+                <div class="stat-blocks">
+                    <div class="stat-item">
+                        <label>Power</label>
+                        <input type="number" id="power" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Agility</label>
+                        <input type="number" id="agility" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Tenacity</label>
+                        <input type="number" id="tenacity" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Discipline</label>
+                        <input type="number" id="discipline" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Empathy</label>
+                        <input type="number" id="empathy" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Presence</label>
+                        <input type="number" id="presence" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Reasoning</label>
+                        <input type="number" id="reasoning" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Intuition</label>
+                        <input type="number" id="intuition" min="0" max="10" value="0">
+                    </div>
+                    <div class="stat-item">
+                        <label>Synchronicity</label>
+                        <input type="number" id="synchronicity" min="0" max="10" value="0">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Traits -->
+            <section class="narrative-section">
+                <h2>Traits</h2>
+                <div id="traitsContainer">
+                    <div class="trait-block">
+                        <input type="text" class="trait-title" placeholder="Trait Name">
+                        <textarea class="trait-description" rows="6" placeholder="Trait description..."></textarea>
+                        <button class="btn-small btn-remove">Remove</button>
+                    </div>
+                </div>
+                <button id="addTrait" class="btn">+ Add Trait</button>
+            </section>
+
+            <!-- Base Powerset -->
+            <section class="narrative-section">
+                <h2>Base Powerset</h2>
+                <div id="powersetContainer">
+                    <div class="power-block">
+                        <input type="text" class="power-name" placeholder="Power Name">
+                        <textarea class="power-description" rows="6" placeholder="Power description..."></textarea>
+                        <button class="btn-small btn-remove">Remove</button>
+                    </div>
+                </div>
+                <button id="addPower" class="btn">+ Add Power</button>
+            </section>
+
+            <!-- Additional Rules -->
+            <section class="narrative-section">
+                <h2>Additional Rules</h2>
+                <textarea id="additionalRules" rows="10" placeholder="Additional rules and notes..."></textarea>
+            </section>
+        </div>
+    </div>
+
+    <input type="file" id="importFileInput" style="display: none;" accept=".json">
+
+    <script src="script.js"></script>
+</body>
+</html>
