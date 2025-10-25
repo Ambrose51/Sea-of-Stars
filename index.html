@@ -14,6 +14,7 @@
                 <button id="newCharacter" class="btn">New Character</button>
                 <button id="saveCharacter" class="btn btn-primary">Save Character</button>
                 <button id="loadCharacter" class="btn">Load Character</button>
+                <button id="importFromDoc" class="btn">Import from Doc</button>
                 <button id="exportCharacter" class="btn">Export JSON</button>
                 <button id="importCharacter" class="btn">Import JSON</button>
                 <button id="printSheet" class="btn">Print</button>
@@ -268,6 +269,24 @@
     </div>
 
     <input type="file" id="importFileInput" style="display: none;" accept=".json">
+
+    <!-- Import from Doc Modal -->
+    <div id="importModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Import from Google Doc</h2>
+                <button id="closeModal" class="btn-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Paste the entire text content from your Google Doc character sheet below:</p>
+                <textarea id="docTextInput" rows="20" placeholder="Paste your character sheet text here..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelImport" class="btn">Cancel</button>
+                <button id="parseImport" class="btn btn-primary">Import Character</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
