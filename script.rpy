@@ -15,6 +15,10 @@ label splashscreen:
     ## This ensures the main menu shows on launch
     return
 
+## Main menu label - called when showing the main menu
+label main_menu:
+    return
+
 ## Override after_load to prevent auto-loading into game
 label after_load:
     return
@@ -89,15 +93,12 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - will be called when a route is selected from main menu
-    ## This is a placeholder common route
-    ## Add your story content here when ready
+    ## Start label - placeholder that returns to main menu
+    ## Add your story content here when ready, or create specific route labels
 
-    "Welcome to Sea of Stars."
-
-    "This is where your story begins."
-
-    "Add your story content to script.rpy when you're ready."
+    scene black
+    "Click to continue to the main menu..."
+    $ MainMenu(confirm=False)()
 
     return
 
