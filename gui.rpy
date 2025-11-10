@@ -209,6 +209,14 @@ define gui.page_spacing = 0
 ## The spacing between file slots.
 define gui.slot_spacing = 10
 
+## File slot text sizes
+define gui.slot_time_text_size = 14
+define gui.slot_name_text_size = 14
+
+## File slot columns and rows
+define gui.file_slot_cols = 3
+define gui.file_slot_rows = 2
+
 ## The position, width, and alignment of the label giving the name of the
 ## main menu screen.
 define gui.main_menu_text_xalign = 1.0
