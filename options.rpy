@@ -8,7 +8,7 @@
 
 ## A human-readable name of the game. This is used to set the default window
 ## title, and shows up in the interface and error reports.
-define config.name = _("Your Visual Novel Title")
+define config.name = _("Sea of Stars")
 
 ## Determines if the title given above is shown on the main menu screen. Set
 ## this to False to hide the title.
@@ -19,7 +19,7 @@ define config.version = "1.0"
 
 ## Text that is placed on the game's about screen.
 define gui.about = _p("""
-Your visual novel description here.
+An interactive RPG character sheet system for the Sea of Stars universe.
 
 Created with Ren'Py.
 """)
@@ -27,7 +27,7 @@ Created with Ren'Py.
 ## A short name for the game used for executables and directories in the built
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
-define build.name = "YourVNTitle"
+define build.name = "SeaOfStars"
 
 ## Sounds and music ############################################################
 
@@ -98,7 +98,7 @@ default preferences.afm_time = 15
 ## Macintosh: $HOME/Library/RenPy/<config.save_directory>
 ##
 ## Linux: $HOME/.renpy/<config.save_directory>
-define config.save_directory = "YourVNTitle-1234567890"
+define config.save_directory = "SeaOfStars-1735689123"
 
 ## Icon ########################################################################
 
