@@ -7,10 +7,16 @@
 ## Show main menu on launch instead of auto-starting the game
 init python:
     config.main_menu_music = None  # Add music file here if desired
+    config.has_autosave = False  # Disable autosave
+    config.has_quicksave = False  # Disable quicksave
 
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
     ## This ensures the main menu shows on launch
+    return
+
+## Override after_load to prevent auto-loading into game
+label after_load:
     return
 
 ################################################################################
