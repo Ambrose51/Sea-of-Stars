@@ -26,18 +26,11 @@ init -1 python:
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
     ## This ensures the main menu shows on launch
-    return
-
-## Main menu label - called when showing the main menu
-label main_menu:
+    ## Just return immediately to show the main menu
     return
 
 ## Override after_load to prevent auto-loading into game
 label after_load:
-    return
-
-## Override before_main_menu to ensure we don't auto-start
-label before_main_menu:
     return
 
 ################################################################################
@@ -110,25 +103,11 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - if called without a specific route, show main menu
-    ## This prevents auto-start and shows the main menu instead
-    ## Add your story content here when ready, or create specific route labels
+    ## Start label - placeholder
+    ## This should only be called from the route selection screen
+    ## If called directly, show a message and return
 
-    ## Present a simple choice to go to main menu
-    scene black
-
-    menu:
-        "Welcome to Sea of Stars! What would you like to do?"
-
-        "Go to Main Menu":
-            $ MainMenu(confirm=False)()
-
-        "Start Common Route":
-            pass
-
-    ## If they chose to start, show placeholder content
-    "This is the common route placeholder."
-    "You can add your story content here."
+    "Please select a route from the main menu."
 
     return
 
