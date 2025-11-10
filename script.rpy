@@ -114,8 +114,21 @@ label start:
     ## This prevents auto-start and shows the main menu instead
     ## Add your story content here when ready, or create specific route labels
 
-    ## Show the main menu
-    call screen main_menu
+    ## Present a simple choice to go to main menu
+    scene black
+
+    menu:
+        "Welcome to Sea of Stars! What would you like to do?"
+
+        "Go to Main Menu":
+            $ MainMenu(confirm=False)()
+
+        "Start Common Route":
+            pass
+
+    ## If they chose to start, show placeholder content
+    "This is the common route placeholder."
+    "You can add your story content here."
 
     return
 
