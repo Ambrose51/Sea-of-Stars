@@ -53,7 +53,7 @@ screen main_menu():
             spacing 20
             xalign 0.5
             
-        text "{size=60}Your VN Title{/size}":
+        text "{size=60}Sea of Stars{/size}":
             xalign 0.5
             text_align 0.5
             
@@ -140,115 +140,233 @@ style route_selection_button_text:
 ## Character Profiles Screen
 ################################################################################
 
-## Define character profile data
+## Define character profile data and load from JSON
 init python:
-    character_profiles = [
-        {
-            "name": "Character A",
-            "image": "gui/characters/char_a_profile.png",  # Profile image
-            "age": "18",
-            "height": "165cm",
-            "bio": "A brief description of Character A. You can include their personality, background, and role in the story.",
-            "likes": "Reading, tea",
-            "dislikes": "Loud noises"
-        },
-        {
-            "name": "Character B",
-            "image": "gui/characters/char_b_profile.png",
-            "age": "19",
-            "height": "175cm",
-            "bio": "A brief description of Character B. Add relevant details about their character.",
-            "likes": "Sports, competition",
-            "dislikes": "Losing"
-        },
-        {
-            "name": "Character C",
-            "image": "gui/characters/char_c_profile.png",
-            "age": "17",
-            "height": "160cm",
-            "bio": "A brief description of Character C. Describe their personality and traits.",
-            "likes": "Art, music",
-            "dislikes": "Conflict"
-        },
-    ]
-    
+    import json
+    import os
+
+    def load_character_data():
+        """Load all character JSON files from Character Sheets directory"""
+        character_profiles = []
+        char_sheets_dir = os.path.join(config.basedir, "Character Sheets")
+
+        if os.path.exists(char_sheets_dir):
+            for filename in os.listdir(char_sheets_dir):
+                if filename.startswith("char_") and filename.endswith(".json"):
+                    filepath = os.path.join(char_sheets_dir, filename)
+                    try:
+                        with open(filepath, 'r', encoding='utf-8') as f:
+                            char_data = json.load(f)
+                            character_profiles.append(char_data)
+                    except Exception as e:
+                        print("Error loading {}: {}".format(filename, e))
+
+        return character_profiles if character_profiles else []
+
+    # Load character data at init time
+    character_profiles = load_character_data()
     current_profile = 0
 
 screen character_profiles():
     tag menu
-    
+
     add gui.main_menu_background
-    
-    $ profile = character_profiles[current_profile]
-    
-    ## Navigation buttons
-    if current_profile > 0:
-        imagebutton:
-            xalign 0.1
-            yalign 0.5
-            idle "gui/button/arrow_left_idle.png"
-            hover "gui/button/arrow_left_hover.png"
-            action SetVariable("current_profile", current_profile - 1)
-    
-    if current_profile < len(character_profiles) - 1:
-        imagebutton:
-            xalign 0.9
-            yalign 0.5
-            idle "gui/button/arrow_right_idle.png"
-            hover "gui/button/arrow_right_hover.png"
-            action SetVariable("current_profile", current_profile + 1)
-    
-    ## Profile display
-    frame:
-        xalign 0.5
-        yalign 0.5
-        xsize 800
-        ysize 600
-        
-        has hbox:
-            spacing 30
-            
-        ## Character portrait
+
+    if not character_profiles:
+        ## No characters found
         frame:
-            xsize 300
-            ysize 500
-            xalign 0.0
+            xalign 0.5
             yalign 0.5
-            
-            add profile["image"]:
-                xalign 0.5
+            padding (40, 30)
+
+            vbox:
+                spacing 20
+                text "No character sheets found" size 30
+                text "Place character JSON files in the 'Character Sheets' folder" size 18
+                textbutton _("Return") action ShowMenu("main_menu") xalign 0.5
+    else:
+        $ profile = character_profiles[current_profile]
+
+        ## Navigation buttons - simple text buttons for now
+        if current_profile > 0:
+            textbutton "<":
+                xalign 0.05
                 yalign 0.5
-        
-        ## Character info
-        vbox:
-            spacing 10
-            xsize 450
-            
-            text "[profile[name]]":
-                size 40
-                bold True
-            
-            null height 10
-            
-            text "Age: [profile[age]]"
-            text "Height: [profile[height]]"
-            
-            null height 20
-            
-            text "Biography:" bold True
-            text "[profile[bio]]":
-                size 18
-            
-            null height 15
-            
-            text "Likes: [profile[likes]]"
-            text "Dislikes: [profile[dislikes]]"
-    
-    ## Return button
-    textbutton _("Return"):
-        xalign 0.5
-        yalign 0.95
-        action ShowMenu("main_menu")
+                action SetVariable("current_profile", current_profile - 1)
+
+        if current_profile < len(character_profiles) - 1:
+            textbutton ">":
+                xalign 0.95
+                yalign 0.5
+                action SetVariable("current_profile", current_profile + 1)
+
+        ## Main character sheet display
+        viewport:
+            xalign 0.5
+            yalign 0.5
+            xsize 1200
+            ysize 650
+            scrollbars "vertical"
+            mousewheel True
+
+            vbox:
+                spacing 15
+                xsize 1150
+
+                ## Header - Character Name and Basic Info
+                frame:
+                    xfill True
+                    padding (20, 15)
+                    background "#20253580"
+
+                    vbox:
+                        spacing 5
+                        text "[profile[characterName]]":
+                            size 48
+                            bold True
+                            color "#ffd700"
+
+                        if profile.get("characterQuote"):
+                            text "\"{0}\"".format(profile["characterQuote"]):
+                                size 20
+                                italic True
+                                color "#b8c5ff"
+
+                ## Core Identity
+                frame:
+                    xfill True
+                    padding (20, 15)
+                    background "#20253560"
+
+                    hbox:
+                        spacing 40
+
+                        vbox:
+                            spacing 8
+                            text "Identity" size 24 bold True color "#6b8cff"
+                            text "Role: {0}".format(profile.get("role", "N/A")) size 18
+                            text "Rank: {0}".format(profile.get("rank", "N/A")) size 18
+                            text "Origin: {0}".format(profile.get("originNode", "N/A")) size 18
+
+                        vbox:
+                            spacing 8
+                            text "State" size 24 bold True color "#6b8cff"
+                            text "Sephira: {0}".format(profile.get("sephiraState", "N/A")) size 18
+                            text "Ascension: {0}".format(profile.get("ascensionState", "N/A")) size 18
+                            text "Blood: {0}".format(profile.get("bloodPattern", "N/A")) size 18
+
+                        vbox:
+                            spacing 8
+                            text "Attributes" size 24 bold True color "#6b8cff"
+                            text "Genotype: {0}".format(profile.get("genotype", "N/A")) size 18
+                            text "Potential: {0}".format(profile.get("potential", "N/A")) size 18
+                            text "Grudge: {0}".format(profile.get("grudgeLevel", "N/A")) size 18
+
+                ## Statistics
+                if profile.get("statistics"):
+                    frame:
+                        xfill True
+                        padding (20, 15)
+                        background "#20253560"
+
+                        vbox:
+                            spacing 10
+                            text "Statistics" size 24 bold True color "#ffd700"
+
+                            grid 3 3:
+                                spacing 20
+                                xfill True
+
+                                for stat_name, stat_value in sorted(profile["statistics"].items()):
+                                    hbox:
+                                        spacing 10
+                                        text "{0}:".format(stat_name.capitalize()) size 18 min_width 150
+                                        text "{0}".format(stat_value) size 18 bold True color "#98fb98"
+
+                ## Soul State
+                if profile.get("soulState"):
+                    frame:
+                        xfill True
+                        padding (20, 15)
+                        background "#20253560"
+
+                        vbox:
+                            spacing 10
+                            text "Soul-State Status" size 24 bold True color "#b19cd9"
+
+                            grid 4 2:
+                                spacing 20
+                                xfill True
+
+                                for soul_stat, soul_value in sorted(profile["soulState"].items()):
+                                    hbox:
+                                        spacing 10
+                                        text "{0}:".format(soul_stat.capitalize()) size 18 min_width 180
+                                        text "{0}".format(soul_value) size 18 bold True color "#dda0dd"
+
+                ## Alignments
+                frame:
+                    xfill True
+                    padding (20, 15)
+                    background "#20253560"
+
+                    vbox:
+                        spacing 10
+                        text "Alignments & Affinities" size 24 bold True color "#ff6b9d"
+
+                        if profile.get("emotionalMeridians"):
+                            hbox:
+                                spacing 10
+                                text "Emotional Meridians:" size 18 bold True
+                                text ", ".join(profile["emotionalMeridians"]) size 18
+
+                        if profile.get("conceptualAlignments"):
+                            hbox:
+                                spacing 10
+                                text "Conceptual:" size 18 bold True
+                                text ", ".join([a.replace("em-", "").replace("ca-", "").title() for a in profile["conceptualAlignments"]]) size 16
+
+                        if profile.get("worldlineAffinities"):
+                            hbox:
+                                spacing 10
+                                text "Worldline:" size 18 bold True
+                                text ", ".join([a.replace("ca-", "").replace("wa-", "").title() for a in profile["worldlineAffinities"]]) size 16
+
+                ## Powers
+                if profile.get("powers") and profile["powers"]:
+                    frame:
+                        xfill True
+                        padding (20, 15)
+                        background "#20253560"
+
+                        vbox:
+                            spacing 10
+                            text "Powers" size 24 bold True color "#ffa500"
+
+                            for power in profile["powers"]:
+                                vbox:
+                                    spacing 5
+                                    text "• {0}".format(power.get("name", "Unknown Power")) size 20 bold True
+                                    if power.get("description"):
+                                        text "  {0}".format(power["description"]) size 16
+
+                ## Additional Info
+                if profile.get("additionalRules"):
+                    frame:
+                        xfill True
+                        padding (20, 15)
+                        background "#20253560"
+
+                        vbox:
+                            spacing 8
+                            text "Additional Rules" size 24 bold True color "#87ceeb"
+                            text "{0}".format(profile["additionalRules"]) size 16
+
+        ## Return button
+        textbutton _("Return to Main Menu"):
+            xalign 0.5
+            yalign 0.97
+            action ShowMenu("main_menu")
 
 ################################################################################
 ## Game Menu Screen
