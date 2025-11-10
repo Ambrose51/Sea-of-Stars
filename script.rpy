@@ -8,6 +8,11 @@
 init python:
     config.main_menu_music = None  # Add music file here if desired
 
+## Splashscreen - runs on first launch, then shows main menu
+label splashscreen:
+    ## This ensures the main menu shows on launch
+    return
+
 ################################################################################
 ## Character Definitions
 ################################################################################
