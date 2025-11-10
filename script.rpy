@@ -16,6 +16,13 @@ init -1 python:
     ## Don't automatically start the game - show main menu instead
     config.game_main_transition = None
 
+    ## Override the default start behavior
+    def main_menu_override():
+        renpy.call_screen("main_menu")
+
+    ## This prevents auto-starting into the game
+    config.main_menu_music = None
+
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
     ## This ensures the main menu shows on launch
@@ -103,12 +110,12 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - this should not auto-run
+    ## Start label - if called without a specific route, show main menu
+    ## This prevents auto-start and shows the main menu instead
     ## Add your story content here when ready, or create specific route labels
-    ## For now, return immediately to prevent the infinite loop error
 
-    "Welcome to Sea of Stars!"
-    "Use the main menu to view character profiles or start a route."
+    ## Show the main menu
+    call screen main_menu
 
     return
 
