@@ -381,45 +381,44 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     
     frame:
         style "game_menu_outer_frame"
-        
-        has hbox:
-            
-        ## Reserve space for the navigation section.
-        frame:
-            style "game_menu_navigation_frame"
-            
-        frame:
-            style "game_menu_content_frame"
-            
-            if scroll == "viewport":
-                viewport:
-                    yinitial yinitial
-                    scrollbars "vertical"
-                    mousewheel True
-                    draggable True
-                    pagekeys True
-                    
-                    side_yfill True
-                    
-                    has vbox
+
+        hbox:
+            ## Reserve space for the navigation section.
+            frame:
+                style "game_menu_navigation_frame"
+
+            frame:
+                style "game_menu_content_frame"
+
+                if scroll == "viewport":
+                    viewport:
+                        yinitial yinitial
+                        scrollbars "vertical"
+                        mousewheel True
+                        draggable True
+                        pagekeys True
+
+                        side_yfill True
+
+                        has vbox
+                        transclude
+
+                elif scroll == "vpgrid":
+                    vpgrid:
+                        cols 1
+                        yinitial yinitial
+
+                        scrollbars "vertical"
+                        mousewheel True
+                        draggable True
+                        pagekeys True
+
+                        side_yfill True
+
+                        transclude
+
+                else:
                     transclude
-            
-            elif scroll == "vpgrid":
-                vpgrid:
-                    cols 1
-                    yinitial yinitial
-                    
-                    scrollbars "vertical"
-                    mousewheel True
-                    draggable True
-                    pagekeys True
-                    
-                    side_yfill True
-                    
-                    transclude
-            
-            else:
-                transclude
     
     use navigation
     
