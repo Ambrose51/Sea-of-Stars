@@ -82,13 +82,11 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - minimal placeholder
+    ## Start label - show main menu if called directly
     ## This should only be called from the route selection screen with a specific route
-    ## Common route content would go here
 
-    "This is the common route. Please use the route selection menu to choose a specific character route."
-
-    return
+    ## Jump directly to main menu to prevent auto-start
+    jump main_menu
 
 ################################################################################
 ## Common Route Scenes
