@@ -5,10 +5,16 @@
 ################################################################################
 
 ## Show main menu on launch instead of auto-starting the game
-init python:
+init -1 python:
+    ## Force main menu on launch - prevent auto-load
     config.main_menu_music = None  # Add music file here if desired
     config.has_autosave = False  # Disable autosave
     config.has_quicksave = False  # Disable quicksave
+    config.autosave_on_quit = False  # Don't save on quit
+    config.auto_load = None  # Don't auto-load any save
+
+    ## Don't automatically start the game - show main menu instead
+    config.game_main_transition = None
 
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
@@ -21,6 +27,10 @@ label main_menu:
 
 ## Override after_load to prevent auto-loading into game
 label after_load:
+    return
+
+## Override before_main_menu to ensure we don't auto-start
+label before_main_menu:
     return
 
 ################################################################################
@@ -93,12 +103,12 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - placeholder that returns to main menu
+    ## Start label - this should not auto-run
     ## Add your story content here when ready, or create specific route labels
+    ## For now, return immediately to prevent the infinite loop error
 
-    scene black
-    "Click to continue to the main menu..."
-    $ MainMenu(confirm=False)()
+    "Welcome to Sea of Stars!"
+    "Use the main menu to view character profiles or start a route."
 
     return
 
