@@ -1,6 +1,14 @@
 ## The script of the game goes in this file.
 
 ################################################################################
+## Configuration
+################################################################################
+
+## Show main menu on launch instead of auto-starting the game
+init python:
+    config.main_menu_music = None  # Add music file here if desired
+
+################################################################################
 ## Character Definitions
 ################################################################################
 
@@ -71,8 +79,14 @@ image char_c neutral = "char_c_neutral.png"
 
 label start:
     ## Start label - will be called when a route is selected from main menu
-    ## For now, just return to show the main menu
+    ## This is a placeholder common route
     ## Add your story content here when ready
+
+    "Welcome to Sea of Stars."
+
+    "This is where your story begins."
+
+    "Add your story content to script.rpy when you're ready."
 
     return
 
