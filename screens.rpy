@@ -782,21 +782,21 @@ screen history():
         for h in _history_list:
             
             window:
-                
-                has hbox:
+
+                hbox:
                     spacing 10
-                
-                if h.who:
-                    label h.who:
-                        style "history_name"
+
+                    if h.who:
+                        label h.who:
+                            style "history_name"
+                            substitute False
+
+                            if "color" in h.who_args:
+                                text_color h.who_args["color"]
+
+                    $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                    text what:
                         substitute False
-                        
-                        if "color" in h.who_args:
-                            text_color h.who_args["color"]
-                
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
-                text what:
-                    substitute False
         
         if not _history_list:
             label _("The dialogue history is empty.")
