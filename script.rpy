@@ -4,37 +4,12 @@
 ## Configuration
 ################################################################################
 
-## Show main menu on launch instead of auto-starting the game
-init -1 python:
-    ## Force main menu on launch - prevent auto-load
-    config.main_menu_music = None  # Add music file here if desired
-    config.has_autosave = False  # Disable autosave
-    config.has_quicksave = False  # Disable quicksave
-    config.autosave_on_quit = False  # Don't save on quit
-    config.auto_load = None  # Don't auto-load any save
-
-    ## Don't automatically start the game - show main menu instead
-    config.game_main_transition = None
-
-    ## Override the default start behavior
-    def main_menu_override():
-        renpy.call_screen("main_menu")
-
-    ## This prevents auto-starting into the game
-    config.main_menu_music = None
-
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
-    ## This ensures the main menu shows on launch
     return
 
-## Main menu label - this tells Ren'Py to show the main menu screen
+## Main menu label - Ren'Py shows the main_menu screen when this returns
 label main_menu:
-    ## Return immediately to show the main menu screen
-    return
-
-## Override after_load to prevent auto-loading into game
-label after_load:
     return
 
 ################################################################################
