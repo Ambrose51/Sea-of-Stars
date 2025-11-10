@@ -123,6 +123,9 @@ define gui.button_height = None
 ## The borders on each side of the button, in left, top, right, bottom order.
 define gui.button_borders = Borders(4, 4, 4, 4)
 
+## The borders for the confirm dialog frame
+define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
+
 ## If True, the background image will be tiled. If False, the background image
 ## will be linearly scaled.
 define gui.button_tile = False
