@@ -26,7 +26,11 @@ init -1 python:
 ## Splashscreen - runs on first launch, then shows main menu
 label splashscreen:
     ## This ensures the main menu shows on launch
-    ## Just return immediately to show the main menu
+    return
+
+## Main menu label - this tells Ren'Py to show the main menu screen
+label main_menu:
+    ## Return immediately to show the main menu screen
     return
 
 ## Override after_load to prevent auto-loading into game
@@ -103,11 +107,11 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - placeholder
-    ## This should only be called from the route selection screen
-    ## If called directly, show a message and return
+    ## Start label - minimal placeholder
+    ## This should only be called from the route selection screen with a specific route
+    ## Common route content would go here
 
-    "Please select a route from the main menu."
+    "This is the common route. Please use the route selection menu to choose a specific character route."
 
     return
 
