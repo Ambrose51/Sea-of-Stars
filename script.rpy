@@ -8,10 +8,6 @@
 label splashscreen:
     return
 
-## Main menu label - Ren'Py shows the main_menu screen when this returns
-label main_menu:
-    return
-
 ################################################################################
 ## Character Definitions
 ################################################################################
