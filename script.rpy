@@ -85,19 +85,22 @@ label start:
     ## Start label - provide menu to access main menu or start game
     ## This should only be called from the route selection screen with a specific route
 
-    scene black
+    # Display a simple title screen
+    $ renpy.pause(0.1)
 
     menu:
-        "Where would you like to go?"
+        "Welcome to Sea of Stars! Where would you like to go?"
 
         "Main Menu":
             $ _game_menu_screen = "main_menu"
             $ renpy.call_in_new_context("_game_menu")
 
-        "Continue":
+        "Start Common Route":
             pass
 
-    "This is the common route placeholder. Add your story content here."
+    "This is the common route placeholder."
+    "Add your story content here when ready."
+    "For now, this will return to the main menu."
 
     return
 
