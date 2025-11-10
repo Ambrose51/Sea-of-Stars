@@ -8,6 +8,10 @@
 label splashscreen:
     return
 
+## Main menu label - required for Ren'Py to show the main menu screen on launch
+label main_menu:
+    return
+
 ################################################################################
 ## Character Definitions
 ################################################################################
