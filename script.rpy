@@ -82,11 +82,24 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Start label - show main menu if called directly
+    ## Start label - provide menu to access main menu or start game
     ## This should only be called from the route selection screen with a specific route
 
-    ## Jump directly to main menu to prevent auto-start
-    jump main_menu
+    scene black
+
+    menu:
+        "Where would you like to go?"
+
+        "Main Menu":
+            $ _game_menu_screen = "main_menu"
+            $ renpy.call_in_new_context("_game_menu")
+
+        "Continue":
+            pass
+
+    "This is the common route placeholder. Add your story content here."
+
+    return
 
 ################################################################################
 ## Common Route Scenes
