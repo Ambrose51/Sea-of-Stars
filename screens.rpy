@@ -819,8 +819,6 @@ style history_name_text:
 style history_text:
     xpos gui.history_text_xpos
     ypos gui.history_text_ypos
-    xanchor gui.history_text_xanchor
-    yanchor gui.history_text_yanchor
     xsize gui.history_text_width
     min_width gui.history_text_width
     text_align gui.history_text_xalign
