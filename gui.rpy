@@ -296,6 +296,8 @@ define gui.history_text_xpos = 170
 define gui.history_text_ypos = 2
 define gui.history_text_width = 740
 define gui.history_text_xalign = 0.0
+define gui.history_text_xanchor = 0.0
+define gui.history_text_yanchor = 0.0
 
 ## NVL-Mode ####################################################################
 
