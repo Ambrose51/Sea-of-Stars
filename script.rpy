@@ -70,36 +70,10 @@ image char_c neutral = "char_c_neutral.png"
 ## If no specific route is chosen, this will run.
 
 label start:
-    ## Show a background
-    scene bg school
-    with fade
-    
-    ## Play music
-    # play music main_theme fadeout 1.0 fadein 1.0
-    
-    "Welcome to your visual novel!"
-    
-    "This is the common route. From here, you can branch into different character routes."
-    
-    ## Example of showing a character
-    show char_a neutral
-    with dissolve
-    
-    char_a "Hello! I'm Character A."
-    
-    ## Example menu choice
-    menu:
-        "This is a choice menu. What would you like to do?"
-        
-        "Talk to Character A":
-            jump char_a_intro
-        
-        "Look around":
-            jump look_around
-        
-        "Go to Character B Route":
-            jump route_b
-    
+    ## Start label - will be called when a route is selected from main menu
+    ## For now, just return to show the main menu
+    ## Add your story content here when ready
+
     return
 
 ################################################################################
